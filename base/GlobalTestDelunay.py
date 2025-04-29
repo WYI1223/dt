@@ -22,10 +22,7 @@ def GlobalTestDelunay(dcel:DCEL):
                       )
                 return False
     return True
-
 def main():
-
-
 
     return
 

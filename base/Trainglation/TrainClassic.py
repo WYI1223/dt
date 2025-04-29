@@ -41,7 +41,6 @@ class TrainClassic(DCEL):
                     half_edges_stacks.remove(he)
                     self.filp_edge(he,point)
                     # self.remove_edge(hePointA,hePointB)
-                    return
                 else:
                     half_edges_stacks.remove(he)
 

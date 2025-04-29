@@ -604,6 +604,111 @@ class DCEL:
         if show:
             plt.show()
 
+    def draw_science(self, show=True,
+             draw_vertices=True,
+             draw_halfedges=True,
+             draw_faces=True,
+             only_hull=False):
+        plt.figure()
+        ax = plt.gca()
+
+        # 定义调色板：使用 matplotlib 的 tab10
+        cmap = plt.cm.get_cmap('tab10')
+        face_color = cmap(2)
+        vertex_color = cmap(0)
+        arrow_color = cmap(1)
+
+        # 辅助函数：获取顶点在 self.vertices 中的索引
+        def get_index(v):
+            try:
+                return self.vertices.index(v)
+            except ValueError:
+                return None
+
+        initial_indices = {0, 1, 2}
+
+        # 1) 绘制所有有限面（闭合多边形）边段，位于最底层 zorder=1
+        if draw_faces:
+            for face in self.faces:
+                verts = self.enumerate_vertices(face)
+                if not verts:
+                    continue
+                n = len(verts)
+                for i in range(n):
+                    v1 = verts[i]
+                    v2 = verts[(i + 1) % n]
+                    idx1 = get_index(v1)
+                    idx2 = get_index(v2)
+                    # 如果仅绘制凸包，跳过与初始顶点相连的边段
+                    if only_hull and (idx1 in initial_indices or idx2 in initial_indices):
+                        continue
+                    ax.plot(
+                        [v1.x, v2.x], [v1.y, v2.y],
+                        color=face_color,
+                        linewidth=2,
+                        zorder=1
+                    )
+
+        # 2) 绘制所有顶点，位于中间 zorder=2
+        if draw_vertices:
+            for v in self.vertices:
+                ax.plot(
+                    v.x, v.y,
+                    marker='o',
+                    color=vertex_color,
+                    zorder=2
+                )
+
+        # 3) 绘制所有半边方向箭头（仅方向），位于最顶层 zorder=3
+        if draw_halfedges:
+            for he in self.half_edges:
+                if he.next is None:
+                    continue
+                # 不再根据 only_hull 过滤半边
+                x1, y1 = he.origin.x, he.origin.y
+                x2, y2 = he.next.origin.x, he.next.origin.y
+                mid_x, mid_y = (x1 + x2) / 2.0, (y1 + y2) / 2.0
+                dx, dy = x2 - x1, y2 - y1
+                length = math.hypot(dx, dy)
+                if length == 0:
+                    continue
+                dxu, dyu = dx / length, dy / length
+                arrow_len = length * 0.3
+                ax.arrow(
+                    mid_x, mid_y,
+                    dxu * arrow_len, dyu * arrow_len,
+                    head_width=0.02,
+                    head_length=0.03,
+                    fc=arrow_color,
+                    ec=arrow_color,
+                    zorder=3
+                )
+
+        # 设置坐标轴与标题
+        ax.axis('equal')
+        ax.set_title("DCEL Visualization")
+        from matplotlib.lines import Line2D
+        # 构造图例
+        legend_handles = []
+        if draw_faces:
+            legend_handles.append(
+                Line2D([0], [0], color=face_color, linewidth=2, label='Face boundary')
+            )
+        if draw_vertices:
+            legend_handles.append(
+                Line2D([0], [0], marker='o', color=vertex_color, linestyle='None', label='Vertex')
+            )
+        if draw_halfedges:
+            legend_handles.append(
+                Line2D([0], [0], color=arrow_color, marker=r'$\rightarrow$', markersize=10, linestyle='None',
+                       label='Half-edge direction')
+            )
+        if legend_handles:
+            ax.legend(handles=legend_handles, loc='best')
+
+        if show:
+            plt.show()
+
     def __repr__(self):
         return (f"DCEL(\n  Vertices: {self.vertices}\n  "
                 f"HalfEdges: {len(self.half_edges)}\n  Faces: {self.faces}\n)")

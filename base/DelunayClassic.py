@@ -43,8 +43,8 @@ def main():
         # print("Inserting:",point)
         # dcel.insert_point_with_certificate(point)
         dcel.insert_point_with_certificate(vertexs[i])
-        dcel.draw()
-        print(dcel)
+        # dcel.draw()
+        # print(dcel)
 
     # dcel.insert_point_with_certificate(vertexs[0])
     # dcel.draw()
@@ -56,7 +56,8 @@ def main():
     # dcel.draw_edge_index()
     # print(dcel)
 
-
+    dcel.draw_science()
+    dcel.draw_science(True,False,False,True,True)
 
     print(GlobalTestDelunay(dcel))
 
