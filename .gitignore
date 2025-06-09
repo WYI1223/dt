@@ -1,1 +1,5 @@
 .idea/
+# 忽略 Python 自动生成的字节码文件
+__pycache__/
+*.py[cod]
+*$py.class
