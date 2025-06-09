@@ -109,7 +109,7 @@ class DCEL:
             e = e.next
             count += 1
             if count == 20:
-                print(face,self.faces.index(face),"----------------------------")
+                print(face,self.faces.index(face),"no end in face he")
                 break
             if e == start:
                 break
@@ -128,6 +128,7 @@ class DCEL:
             if e == start:
                 break
         return half_edges
+
 
     def upgrade_incident_face(self, he: HalfEdge, face: Face):
         """
@@ -160,7 +161,7 @@ class DCEL:
         if face in self.faces:
             self.faces.remove(face)
         else:
-            raise Exception("待拆分三角形不在面列表中！")
+            raise Exception("待拆分三角形不在面列表中！",{x,y,face})
 
         # 创建新半边
         hePA = self.add_half_edge(new_vertex)
@@ -234,8 +235,8 @@ class DCEL:
                 e = e.next
                 if e == start:
                     return face
+        self.draw()
         raise Exception("No face found, point:", r,self.faces)
-
         # if not self.faces:
         #     return None
         #
@@ -269,7 +270,7 @@ class DCEL:
         halfEdges = []
         e = point1.incident_edge
         while True:
-            print(e)
+            # print(e)
             if e.twin.origin == point2:
                 halfEdges.append(e)
                 halfEdges.append(e.twin)
@@ -379,7 +380,7 @@ class DCEL:
         face2.outer_component = heAB
         heAB.incident_face = face2
         face2 = self.upgrade_incident_face(heAB, face2)
-        return
+        return {face,face2}
 
     def filp_edge(self, he: HalfEdge, point:Vertex):
         hePointA = he.origin
@@ -387,12 +388,12 @@ class DCEL:
         oppositePoint = he.twin.prev.origin
         self.remove_edge(hePointA, hePointB)
         self.add_edge(oppositePoint, point)
-        print("flip edge:",hePointA,hePointB,"instead by",oppositePoint,point)
+        # print("flip edge:",hePointA,hePointB,"instead by",oppositePoint,point)
         return
     def isDelunayTrain(self,half_edge: HalfEdge,point: Vertex):
 
         if self.half_edges.index(half_edge) < 6:
-            print(half_edge,"is outside edge, skip")
+            # print(half_edge,"is outside edge, skip")
             return False
 
 
@@ -406,18 +407,18 @@ class DCEL:
         certifi = in_circle_test(pointC,pointA,pointB,point)
 
         if certifi < 0:
-            print("Tran:",self.vertices.index(pointA),"",
-                  self.vertices.index(pointB),"",
-                  self.vertices.index(pointC),"are qualified with Point x:",
-                    point.x,"y:",point.y,certifi
-                  )
+            # print("Tran:",self.vertices.index(pointA),"",
+            #       self.vertices.index(pointB),"",
+            #       self.vertices.index(pointC),"are qualified with Point x:",
+            #         point.x,"y:",point.y,certifi
+            #       )
             return False
         elif certifi > 0:
-            print("Tran:", self.vertices.index(pointA), "",
-                  self.vertices.index(pointB), "",
-                  self.vertices.index(pointC), "are including Point x:",
-                  point.x, "y:", point.y, certifi
-                  )
+            # print("Tran:", self.vertices.index(pointA), "",
+            #       self.vertices.index(pointB), "",
+            #       self.vertices.index(pointC), "are including Point x:",
+            #       point.x, "y:", point.y, certifi
+            #       )
             return True
         else:
             raise Exception("4点共圆！！！")
@@ -708,6 +709,42 @@ class DCEL:
 
         if show:
             plt.show()
+    @staticmethod
+    def draw_dcel(self, *, ax=None,
+                  draw_vertices=True, vertex_size=20,
+                  annotate=False, title=None):
+        import matplotlib.pyplot as plt
+        if ax is None:
+            fig, ax = plt.subplots()
+
+        for he in self.half_edges:
+            # 只画一次
+            if he.twin and id(he) > id(he.twin):
+                continue
+
+            p = he.origin
+            # 若 next 缺失（常见于外层射线），就用 twin.origin
+            if he.next is not None:
+                q = he.next.origin
+            else:
+                q = he.twin.origin  # 一条“独立边”或射线
+
+            ax.plot([p.x, q.x], [p.y, q.y], linewidth=1)
+
+        if draw_vertices:
+            xs = [v.x for v in self.vertices]
+            ys = [v.y for v in self.vertices]
+            ax.scatter(xs, ys, s=vertex_size, zorder=3)
+            if annotate:
+                for i, v in enumerate(self.vertices):
+                    ax.text(v.x, v.y, str(i), fontsize=8,
+                            ha='right', va='bottom')
+
+        ax.set_aspect("equal")
+        ax.axis("off")
+        if title:
+            ax.set_title(title)
+        return ax
 
     def __repr__(self):
         return (f"DCEL(\n  Vertices: {self.vertices}\n  "

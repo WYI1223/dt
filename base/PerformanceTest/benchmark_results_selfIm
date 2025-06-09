@@ -1,0 +1,11 @@
+n=10: Training time = 0.1312s, Execution time = 0.0019s
+n=50: Training time = 0.1088s, Execution time = 0.0017s
+n=100: Training time = 0.2790s, Execution time = 0.0018s
+n=250: Training time ≈ 4.3591s (estimated), Execution time = 0.1801s
+n=500: Training time ≈ 34.8729s (estimated), Execution time = 0.4975s
+n=1000: Training time ≈ 278.9831s (estimated), Execution time = 1.9965s
+n=1500: Training time ≈ 941.5680s (estimated), Execution time = 3.7194s
+n=2000: Training time ≈ 2231.8648s (estimated), Execution time = 3.1729s
+n=3000: Training time ≈ 7532.5437s (estimated), Execution time = 7.2304s
+n=4000: Training time ≈ 17854.9184s (estimated), Execution time = 10.7128s
+n=5000: Training time ≈ 34872.8875s (estimated), Execution time = 13.2719s

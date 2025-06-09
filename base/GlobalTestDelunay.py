@@ -1,5 +1,5 @@
-from DCEL.dcel import DCEL
-from DCEL.geometry import in_circle_test
+from base.DCEL.dcel import DCEL
+from base.DCEL.geometry import in_circle_test
 
 def GlobalTestDelunay(dcel:DCEL):
 

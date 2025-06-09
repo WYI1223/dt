@@ -45,3 +45,47 @@ def midpoint(p):
         sum_Y += i.y
     mid = Vertex(sum_X/num, sum_Y/num)
     return mid
+
+
+def circumcenter(a,b,c):
+    """
+    计算三角形 ABC 的外接圆圆心。
+
+    参数
+    ----
+    a, b, c : (x, y)
+        三角形三个顶点的笛卡尔坐标。
+
+    返回
+    ----
+    (cx, cy) : (float, float)
+        外接圆圆心坐标。
+
+    抛出
+    ----
+    ValueError
+        当三点共线（无法唯一确定外接圆）时抛出。
+    """
+    ax, ay = a.x, a.y
+    bx, by = b.x, b.y
+    cx, cy = c.x, c.y
+
+    # 行列式分母：2·(ax(by−cy)+bx(cy−ay)+cx(ay−by))
+    d = 2 * (ax * (by - cy) + bx * (cy - ay) + cx * (ay - by))
+    if abs(d) < 1e-12:  # 共线或几乎共线
+        raise ValueError("Points are colinear; circumcenter is undefined.")
+
+    # 使用坐标法推导得到的分子
+    ax2_ay2 = ax ** 2 + ay ** 2
+    bx2_by2 = bx ** 2 + by ** 2
+    cx2_cy2 = cx ** 2 + cy ** 2
+
+    ux = (ax2_ay2 * (by - cy) +
+          bx2_by2 * (cy - ay) +
+          cx2_cy2 * (ay - by)) / d
+
+    uy = (ax2_ay2 * (cx - bx) +
+          bx2_by2 * (ax - cx) +
+          cx2_cy2 * (bx - ax)) / d
+
+    return ux, uy
