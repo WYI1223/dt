@@ -1,11 +1,11 @@
 from collections import defaultdict
 
 from base.SelfImproving.Delaunay_face_routing_simplified import compute_delaunay
-from split_tree_build import construct_split_tree, build_sub_split_tree
-from delaunay_from_splittree import build_delaunay_from_splittree
+from base.SelfImproving.split_tree_build import construct_split_tree, build_sub_split_tree
+from base.SelfImproving.delaunay_from_splittree import build_delaunay_from_splittree
 from base.DCEL.vertex import Vertex as Point
 from base.DCEL.face import Face
-from Delaunay_face_routing_simplified import DelaunayWithRouting as Triangulation
+from base.SelfImproving.Delaunay_face_routing_simplified import DelaunayWithRouting as Triangulation
 
 
 def bfs_conflict_region(triang: Triangulation, start_face, p: Point):
@@ -114,7 +114,7 @@ def operation_phase(I_new_coords, state):
 
 if __name__ == "__main__":
     # 示例运行：从 training_phase 直接拿 state
-    from training import training_phase
+    from training_simplifed import training_phase
     import random
     # 随机生成训练和运行样本
     random.seed(42)

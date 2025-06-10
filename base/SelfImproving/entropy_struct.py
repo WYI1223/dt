@@ -1,6 +1,6 @@
 from collections import defaultdict
 import math
-from split_tree_build import construct_split_tree
+from base.SelfImproving.split_tree_build import construct_split_tree
 from base.DCEL.dcel import DCEL as Triangulation
 from base.DCEL.face import Face
 

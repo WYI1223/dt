@@ -71,7 +71,7 @@ def generate_clustered_points_superfast(
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
-    n, k = 10000, 3
+    n, k = 1000, 5
     pts = generate_clustered_points_superfast(
         n, k,
         x_range=(5, 15),
