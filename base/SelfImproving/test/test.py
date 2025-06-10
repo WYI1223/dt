@@ -27,6 +27,10 @@ def run_benchmarks(output_file='benchmark_results-1.csv'):
 
     for n in ns:
         ms = [n // 100, n // 10, n // 5]
+        if  n >= 1000:
+            ms = [n//1000,n//500,n//100,n//50]
+            if n>= 4000:
+                ms = [n//1000, n//500]
         ms = [m for m in ms if m > 0]
 
         for m, k, layout in itertools.product(ms, ks, layouts):
@@ -46,7 +50,7 @@ def run_benchmarks(output_file='benchmark_results-1.csv'):
 
             # 训练阶段
             t0 = time.perf_counter()
-            state = training_phase(train_samples, n)
+            state = training_phase(train_samples, n, k)
             t_train = time.perf_counter() - t0
 
             # 生成测试实例
@@ -74,14 +78,14 @@ def run_benchmarks(output_file='benchmark_results-1.csv'):
             _ = compute_delaunay(I_vertices)
             t_input = time.perf_counter() - t0
 
-            # 经典算法：仅当 n <= 1000 时才测时
-            if n <= 1000:
-                t0 = time.perf_counter()
-                _ = compute_delaunay_classic(I_vertices)
-                t_classic = time.perf_counter() - t0
-            else:
-                t_classic = None  # 跳过
-
+            # # 经典算法：仅当 n <= 1000 时才测时
+            # if n <= 1000:
+            #     t0 = time.perf_counter()
+            #     _ = compute_delaunay_classic(I_vertices)
+            #     t_classic = time.perf_counter() - t0
+            # else:
+            #     t_classic = None  # 跳过
+            t_classic = None
             # 写入结果（追加模式）
             row = {
                 'n': n, 'm': m, 'k': k, 'layout': layout,

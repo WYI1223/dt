@@ -1,5 +1,5 @@
 # training.py
-
+import math
 import random
 from base.SelfImproving.split_tree_build import construct_split_tree
 from base.SelfImproving.Delaunay_face_routing_simplified import compute_delaunay
@@ -86,7 +86,7 @@ def collect_training_strings_for_Pi(train_samples, Gpj):
 
     return training_pairs
 
-def training_phase(train_samples, n):
+def training_phase(train_samples, n, k = 10):
     """
     训练阶段：
       - train_samples: 训练样本列表，每个样本是一个长度为 n 的点集 I = [(x,y), ...]
@@ -102,7 +102,7 @@ def training_phase(train_samples, n):
     # ----------------------------------------------------------------------------
     # 1) 用 k-means 版 learn_approx_partition 得到 G_prime
     # ----------------------------------------------------------------------------
-    Gp = learn_approx_partition(train_samples)
+    Gp = learn_approx_partition(train_samples,k)
     # Gp[0] 是空列表或常数小列表，Gp[j], j>=1 是下标列表
 
     # ----------------------------------------------------------------------------
