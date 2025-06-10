@@ -2,7 +2,7 @@
 
 import random
 from base.SelfImproving.split_tree_build import construct_split_tree
-from base.DelunayClassic import compute_delaunay
+from base.SelfImproving.Delaunay_face_routing_simplified import compute_delaunay
 from base.SelfImproving.learn_partition import learn_approx_partition   # k-means 版 learn_approx_partition
 from base.SelfImproving.entropy_struct import B_Pi_Structure
 from base.DCEL.vertex import Vertex as Point

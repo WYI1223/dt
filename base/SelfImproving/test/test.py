@@ -12,7 +12,7 @@ from base.SelfImproving.Delaunay_face_routing_simplified import compute_delaunay
 from base.DelunayClassic import compute_delaunay as compute_delaunay_classic
 from base.DCEL.vertex import Vertex as Point
 
-def run_benchmarks(output_file='benchmark_results.csv'):
+def run_benchmarks(output_file='benchmark_results-1.csv'):
     # 参数空间
     ns      = [10, 50, 100, 250, 500, 1000, 1500, 2000, 3000, 4000, 5000]
     ks      = [3, 4, 5]
@@ -36,9 +36,9 @@ def run_benchmarks(output_file='benchmark_results.csv'):
             train_samples = [
                 generate_clustered_points_superfast(
                     n, k,
-                    x_range=(5, 15),
+                    x_range=(5.01, 15),
                     y_range=(0.01, 7.5),
-                    std_dev=0.6,
+                    std_dev=0.4,
                     layout=layout
                 )
                 for _ in range(m)
@@ -52,9 +52,9 @@ def run_benchmarks(output_file='benchmark_results.csv'):
             # 生成测试实例
             I_new = generate_clustered_points_superfast(
                 n, k,
-                x_range=(5, 15),
+                x_range=(5.01, 15),
                 y_range=(0.01, 7.5),
-                std_dev=0.6,
+                std_dev=0.4,
                 layout=layout
             )
 
