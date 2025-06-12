@@ -14,7 +14,8 @@ from base.DCEL.vertex import Vertex as Point
 
 def run_benchmarks(output_file='benchmark_results-1.csv'):
     # 参数空间
-    ns      = [10, 50, 100, 250, 500, 1000, 1500, 2000, 3000, 4000, 5000]
+    # ns      = [10, 50, 100, 250, 500, 1000, 1500, 2000, 3000, 4000, 5000]
+    ns      = [2000, 3000, 4000, 5000]
     ks      = [3, 4, 5]
     layouts = ["x_split", "grid"]
 
@@ -29,7 +30,7 @@ def run_benchmarks(output_file='benchmark_results-1.csv'):
         ms = [n // 100, n // 10, n // 5]
         if  n >= 1000:
             ms = [n//1000,n//500,n//100,n//50]
-            if n>= 4000:
+            if n>= 2000:
                 ms = [n//1000, n//500]
         ms = [m for m in ms if m > 0]
 

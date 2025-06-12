@@ -4,7 +4,7 @@ def generate_clustered_points_superfast(
     n, k,
     x_range=(5, 15),
     y_range=(0, 7.5),
-    std_dev=0.5,
+    std_dev=0.4,
     weights=None,
     layout="x_split",   # 可选 "x_split" 或 "grid"
 ):
@@ -76,7 +76,7 @@ if __name__ == "__main__":
         n, k,
         x_range=(5, 15),
         y_range=(0, 7.5),
-        std_dev=0.6,
+        std_dev=0.4,
         layout="grid"
     )
     xs, ys = zip(*pts)

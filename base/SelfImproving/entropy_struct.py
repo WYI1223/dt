@@ -126,14 +126,26 @@ class B_Pi_Structure:
             node = node.children[c]
         node.output_label = output_string
 
-    def _build_all_bsts(self, node: EntropyTrieNode):
-        # 递归为每个 Trie 节点构造分布敏感 BST
-        if node.freq_counter:
-            keys = sorted(node.freq_counter.keys())
-            weights = [node.freq_counter[k] for k in keys]
-            node.bst_root = DistSensitiveBST(keys, weights)
-        for child in node.children.values():
-            self._build_all_bsts(child)
+    # def _build_all_bsts(self, node: EntropyTrieNode):
+    #     # 递归为每个 Trie 节点构造分布敏感 BST
+    #     if node.freq_counter:
+    #         keys = sorted(node.freq_counter.keys())
+    #         weights = [node.freq_counter[k] for k in keys]
+    #         node.bst_root = DistSensitiveBST(keys, weights)
+    #     for child in node.children.values():
+    #         self._build_all_bsts(child)
+
+    def _build_all_bsts(self, root: EntropyTrieNode):
+        """用显式栈而不是递归，防止 Python 递归深度溢出"""
+        stack = [root]
+        while stack:
+            node = stack.pop()
+            if node.freq_counter:
+                keys = sorted(node.freq_counter)
+                weights = [node.freq_counter[k] for k in keys]
+                node.bst_root = DistSensitiveBST(keys, weights)
+            # 把孩子压栈即可，无递归深度问题
+            stack.extend(node.children.values())
 
     def build(self, training_strings):
         """
