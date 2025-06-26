@@ -457,7 +457,7 @@ def compute_delaunay(vertexs,draw=False):
     for i in vertexs:
         dcel.insert_point_with_certificate(i)
         if draw:
-            dcel.draw()
+            dcel.draw_science()
     return dcel
 
 

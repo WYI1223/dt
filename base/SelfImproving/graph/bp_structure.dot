@@ -1,0 +1,8 @@
+// B_Pi_Structure
+digraph {
+	1430884344768 [label="root
+freq={1: 100}"]
+	1430884344768 -> 1430884344432 [label=1]
+	1430884344432 [label="1
+label=[1]"]
+}

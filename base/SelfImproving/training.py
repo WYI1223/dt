@@ -131,6 +131,7 @@ def training_phase(train_samples, n, k = 10):
         training_pairs_Pi = collect_training_strings_for_Pi(train_samples, Gpj)
         pis = B_Pi_Structure()
         pis.build(training_pairs_Pi)
+        pis.draw_graphviz()
         Pi_struct[j] = pis
 
     # ----------------------------------------------------------------------------

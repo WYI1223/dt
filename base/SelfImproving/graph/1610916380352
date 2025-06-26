@@ -1,0 +1,6 @@
+// DistSensitiveBST
+digraph {
+	1610915865472 [label=14]
+	1610915865472 -> 1610917483520 [label=R]
+	1610917483520 [label=22]
+}

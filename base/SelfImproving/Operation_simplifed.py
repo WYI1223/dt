@@ -1,3 +1,4 @@
+import sys
 from collections import defaultdict
 
 from base.SelfImproving.Delaunay_face_routing_simplified import compute_delaunay
@@ -185,17 +186,14 @@ def operation_phase(I_new_coords, state):
 if __name__ == "__main__":
     # 示例运行：从 training_phase 直接拿 state
     from training import training_phase
-    import random
-    # 随机生成训练和运行样本
-    random.seed(42)
     # 生成 m=10 个训练样本，每个大小 n=20
-    m, n = 5, 50
+    m, n = 5, 20
     # train_samples = [
-    #     [(random.uniform(5, 15), random.uniform(0, 7.5)) for _ in range(n)]
+    #     [(random.uniform(5, 15), random.uniform(0, 7.5)) for _ in r`ange(n)]
     #     for __ in range(m)
     # ]
     from PointDistribution2 import generate_clustered_points_superfast
-    k=3
+    k=2
     train_samples = [
         generate_clustered_points_superfast(n, k,
                                           x_range=(5, 15),
@@ -204,6 +202,8 @@ if __name__ == "__main__":
         for __ in range(m)
     ]
     state = training_phase(train_samples, n)
+    sys.exit()
+
     # 生成一个新的测试实例
     # I_new = [(random.uniform(5, 15), random.uniform(0, 7.5)) for _ in range(n)]
     I_new = generate_clustered_points_superfast(n, k,
@@ -220,7 +220,7 @@ if __name__ == "__main__":
 
     import time
     start = time.perf_counter()
-    delaunay = compute_delaunay(results)
+    delaunay = compute_delaunay(results,True)
     end = time.perf_counter()
     print("generator",end - start)
 
