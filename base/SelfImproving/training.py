@@ -3,7 +3,7 @@ import math
 import random
 from base.SelfImproving.split_tree_build import construct_split_tree
 from base.SelfImproving.Delaunay_face_routing_simplified import compute_delaunay
-from base.SelfImproving.learn_partition import learn_approx_partition   # k-means 版 learn_approx_partition
+from base.SelfImproving.learn_partition import learn_approx_partition,learn_partition_interleaved   # k-means 版 learn_approx_partition
 from base.SelfImproving.entropy_struct import B_Pi_Structure
 from base.DCEL.vertex import Vertex as Point
 
@@ -102,7 +102,8 @@ def training_phase(train_samples, n, k = 10):
     # ----------------------------------------------------------------------------
     # 1) 用 k-means 版 learn_approx_partition 得到 G_prime
     # ----------------------------------------------------------------------------
-    Gp = learn_approx_partition(train_samples,k)
+    # Gp = learn_approx_partition(train_samples,k)
+    Gp = learn_partition_interleaved(train_samples, k)
     # Gp[0] 是空列表或常数小列表，Gp[j], j>=1 是下标列表
 
     # ----------------------------------------------------------------------------
@@ -131,7 +132,7 @@ def training_phase(train_samples, n, k = 10):
         training_pairs_Pi = collect_training_strings_for_Pi(train_samples, Gpj)
         pis = B_Pi_Structure()
         pis.build(training_pairs_Pi)
-        pis.draw_graphviz()
+        # pis.draw_graphviz()
         Pi_struct[j] = pis
 
     # ----------------------------------------------------------------------------

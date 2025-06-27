@@ -148,6 +148,58 @@ def learn_approx_partition(train_samples, K):
         Gp[c+1].append(i)
     return Gp
 
+def learn_partition_by_index(n_points, K):
+    """
+    直接根据交替输出的下标 i % K 来做分区，
+    前提是你的 train_samples 是按 interleaved 顺序生成的。
+    返回 Gp，和原来一样：Gp[0]=[]，Gp[1] 对应簇0，…, Gp[K]对应簇K-1。
+    """
+    Gp = [[] for _ in range(K+1)]
+    for i in range(n_points):
+        cluster = (i % K) + 1
+        Gp[cluster].append(i)
+    return Gp
+
+def learn_partition_interleaved(train_samples, K):
+    """
+    利用交替输出的位置 i % K 直接分区。
+
+    参数
+    ----
+    train_samples : list[list[(float,float)]]
+        m 个样本，每个样本是同样长度 n 的点列表，
+        且这些点是按照 cluster0,cluster1,… 交替生成的
+    K : int
+        簇数
+
+    返回
+    ----
+    Gp : list[list[int]]
+        长度 K+1 的列表，Gp[0] 保留空，
+        Gp[1] 存所有 i%K==0 的下标，
+        Gp[2] 存 i%K==1 的下标，… 以此类推。
+    """
+    if not train_samples:
+        return [[] for _ in range(K+1)]
+    n = len(train_samples[0])
+    Gp = [[] for _ in range(K+1)]
+    for i in range(n):
+        # i % K == 0 -> 簇 1；i % K == 1 -> 簇 2；…；i % K == K-1 -> 簇 K
+        Gp[(i % K) + 1].append(i)
+    return Gp
+
+
+# 用法：
+if __name__ == "__main__":
+    # 假设你生成了 n = 300, k = 3
+    Gp = learn_partition_by_index(300, 3)
+    print(Gp)
+    # ➞ [[],
+    #      [0, 3, 6, …],    # 所有 %3==0 的
+    #      [1, 4, 7, …],    # 所有 %3==1 的
+    #      [2, 5, 8, …]]    # 所有 %3==2 的
+
+
 if __name__ == '__main__':
     train_samples = [
         [(1, 2), (3, 4), (5, 6), (7, 8), (9, 10)],

@@ -192,21 +192,21 @@ if __name__ == "__main__":
     #     [(random.uniform(5, 15), random.uniform(0, 7.5)) for _ in r`ange(n)]
     #     for __ in range(m)
     # ]
-    from PointDistribution2 import generate_clustered_points_superfast
+    from PointDistribution3 import generate_clustered_points_superfast_order
     k=2
     train_samples = [
-        generate_clustered_points_superfast(n, k,
+        generate_clustered_points_superfast_order(n, k,
                                           x_range=(5, 15),
                                           y_range=(0, 7.5),
                                           std_dev=0.4) for _ in range(n)
         for __ in range(m)
     ]
     state = training_phase(train_samples, n)
-    sys.exit()
+    # sys.exit()
 
     # 生成一个新的测试实例
     # I_new = [(random.uniform(5, 15), random.uniform(0, 7.5)) for _ in range(n)]
-    I_new = generate_clustered_points_superfast(n, k,
+    I_new = generate_clustered_points_superfast_order(n, k,
                                           x_range=(5, 15),
                                           y_range=(0, 7.5),
                                           std_dev=0.4)
@@ -220,7 +220,7 @@ if __name__ == "__main__":
 
     import time
     start = time.perf_counter()
-    delaunay = compute_delaunay(results,True)
+    delaunay = compute_delaunay(results)
     end = time.perf_counter()
     print("generator",end - start)
 
